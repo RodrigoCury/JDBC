@@ -21,6 +21,7 @@ public class ConnectioFactory {
 		cpds.setJdbcUrl(url);
 		cpds.setUser(user);
 		cpds.setPassword(password);
+		cpds.setMaxPoolSize(15);
 		dataSource = cpds;
 	}
 	

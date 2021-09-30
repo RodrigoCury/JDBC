@@ -1,4 +1,4 @@
-package br.dev.rodrigocury;
+package br.dev.rodrigocury.main;
 
 import java.util.Map;
 

@@ -1,9 +1,18 @@
 package br.dev.rodrigocury.models;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Categoria {
 	private String nome;
 	private Integer id;
+	private ArrayList<Produto> produtos = new ArrayList<Produto>();
 	
+	public List<Produto> getProdutos() {
+		return Collections.unmodifiableList(produtos);
+	}
+
 	public Categoria(String nome) {
 		this.nome = nome;
 	}
@@ -29,6 +38,10 @@ public class Categoria {
 	@Override
 	public String toString() {
 		return this.id != null ? String.format("#%d - %s", this.id, this.nome) : String.format("## - %s", this.nome);
+	}
+	
+	public void addProduto(Produto p) {
+		produtos.add(p);
 	}
 	
 	

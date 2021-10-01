@@ -1,4 +1,5 @@
 package br.dev.rodrigocury.DAO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,97 +17,110 @@ public class CategoriaDAO {
 		this.connection = connection;
 	}
 
-	public void salvarCategoria(Categoria c) throws SQLException {
-		String sql = "INSERT INTO CATEGORIA (nome) Values (?)";
-		
-		try(PreparedStatement ps = this.connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
-			ps.setString(1, c.getNome());
-						
-			ps.execute();
-			
-			try(ResultSet rs = ps.getGeneratedKeys()){
-				if(rs.next()) {
-					c.setId(rs.getInt(1));
+	public void salvarCategoria(Categoria c) {
+		try {
+			String sql = "INSERT INTO CATEGORIA (nome) Values (?)";
+
+			try (PreparedStatement ps = this.connection.prepareStatement(sql,
+					PreparedStatement.RETURN_GENERATED_KEYS)) {
+				ps.setString(1, c.getNome());
+
+				ps.execute();
+
+				try (ResultSet rs = ps.getGeneratedKeys()) {
+					if (rs.next()) {
+						c.setId(rs.getInt(1));
+					}
 				}
+
 			}
-			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
-	
-	public void salvarCategoria(String nome) throws SQLException {
+
+	public void salvarCategoria(String nome) {
 		this.salvarCategoria(new Categoria(nome));
 	}
-	
-	public ArrayList<Categoria> listar() throws SQLException {
-		ArrayList<Categoria> categorias = new ArrayList<Categoria>();
 
-		String sql = "SELECT ID, NOME FROM CATEGORIA";
-						
-		try (PreparedStatement statement = connection.prepareStatement(sql)){
-			statement.execute();
-			
-			try(ResultSet resultSet = statement.getResultSet()){
-				
-				while(resultSet.next()) {
-					Integer id = resultSet.getInt("ID");
-					String nome = resultSet.getString("nome");
-					categorias.add(new Categoria(nome, id));
+	public ArrayList<Categoria> listar() {
+		try {
+
+			ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+
+			String sql = "SELECT ID, NOME FROM CATEGORIA";
+
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				statement.execute();
+
+				try (ResultSet resultSet = statement.getResultSet()) {
+
+					while (resultSet.next()) {
+						Integer id = resultSet.getInt("ID");
+						String nome = resultSet.getString("nome");
+						categorias.add(new Categoria(nome, id));
+					}
+
 				}
-				
+
 			}
-			
+			return categorias;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
-		return categorias;
 	}
-	
-	public void removeCategoria(Integer id) throws SQLException{
-		String sql = "DELETE FROM CATEGORIA WHERE ID = ?"; 
-		
-		try (PreparedStatement stm = connection.prepareStatement(sql)){
+
+	public void removeCategoria(Integer id)  {
+		String sql = "DELETE FROM CATEGORIA WHERE ID = ?";
+
+		try (PreparedStatement stm = connection.prepareStatement(sql)) {
 			stm.setInt(1, id);
-			
+
 			stm.execute();
-			
+
 			Integer modifiedLines = stm.getUpdateCount();
-			
+
 			System.out.println(String.format("Linhas Modificadas: %d", modifiedLines));
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
-		
-				
+
 	}
-	
-	public ArrayList<Categoria> listarComProdutos() throws SQLException{
+
+	public ArrayList<Categoria> listarComProdutos() {
 		Categoria ultimaCategoria = null;
-		
+
 		ArrayList<Categoria> categorias = new ArrayList<Categoria>();
 
 		String sql = "SELECT C.ID, C.NOME, P.ID, P.NOME, P.DESCRICAO FROM CATEGORIA C INNER JOIN PRODUTO P ON C.ID = P.CATEGORIA_ID";
-						
-		try (PreparedStatement statement = connection.prepareStatement(sql)){
+
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.execute();
-			
-			try(ResultSet resultSet = statement.getResultSet()){
-				
-				while(resultSet.next()) {
-					if (ultimaCategoria == null || !ultimaCategoria.getNome().equals(resultSet.getString(2))) {						
+
+			try (ResultSet resultSet = statement.getResultSet()) {
+
+				while (resultSet.next()) {
+					if (ultimaCategoria == null || !ultimaCategoria.getNome().equals(resultSet.getString(2))) {
 						Integer id = resultSet.getInt("ID");
 						String nome = resultSet.getString("nome");
 						Categoria categoria = new Categoria(nome, id);
 						categorias.add(categoria);
 						ultimaCategoria = categoria;
 					}
-					
+
 					Integer idProduto = resultSet.getInt(3);
 					String nomeProduto = resultSet.getString(4);
 					String descricao = resultSet.getString(5);
-					
+
 					ultimaCategoria.addProduto(new Produto(idProduto, nomeProduto, descricao));
-					
+
 				}
-				
+
 			}
-			
+			return categorias;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
-		return categorias;
+		
 	}
 }

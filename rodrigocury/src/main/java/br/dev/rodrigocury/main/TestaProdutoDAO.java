@@ -14,14 +14,15 @@ public class TestaProdutoDAO {
 			
 			ProdutoDAO pd = new ProdutoDAO(c);
 			
-			pd.salvarProduto("Banana", "de Pijama");
+//			pd.salvarProduto("Banana", "de Pijama");
+//			
+//			pd.listar().forEach(System.out::println);
+//			
+//			pd.removeProduto(12);
+//			
+//			pd.listar().forEach(System.out::println);
 			
-			pd.listar().forEach(System.out::println);
-			
-			pd.removeProduto(12);
-			
-			pd.listar().forEach(System.out::println);
-			
+			pd.buscar(1).forEach(System.out::println);;
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

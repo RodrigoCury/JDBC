@@ -5,10 +5,14 @@ public class Produto {
 	private String nome;
 	private String descricao;
 	
-	public Produto(Integer id, String nome, String descricao) {
-		this.id = id;
+	public Produto(String nome, String descricao) {
 		this.nome = nome;
 		this.descricao = descricao;
+	}
+	
+	public Produto(Integer id, String nome, String descricao) {
+		this(nome, descricao);
+		this.id = id;
 	}
 	
 	public String getNome() {
@@ -26,7 +30,7 @@ public class Produto {
 	
 	@Override
 	public String toString() {
-		return String.format("%d: %s - %s", this.id, this.nome, this.descricao);
+		return id != null ? String.format("%d: %s - %s", this.id, this.nome, this.descricao) : String.format("##: %s - %s", this.nome, this.descricao);
 	}
 
 	public Integer getId() {

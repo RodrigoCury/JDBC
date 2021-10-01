@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import br.dev.rodrigocury.models.Categoria;
+import br.dev.rodrigocury.models.Produto;
 
 public class CategoriaDAO {
 
@@ -72,5 +73,40 @@ public class CategoriaDAO {
 		}
 		
 				
+	}
+	
+	public ArrayList<Categoria> listarComProdutos() throws SQLException{
+		Categoria ultimaCategoria = null;
+		
+		ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+
+		String sql = "SELECT C.ID, C.NOME, P.ID, P.NOME, P.DESCRICAO FROM CATEGORIA C INNER JOIN PRODUTO P ON C.ID = P.CATEGORIA_ID";
+						
+		try (PreparedStatement statement = connection.prepareStatement(sql)){
+			statement.execute();
+			
+			try(ResultSet resultSet = statement.getResultSet()){
+				
+				while(resultSet.next()) {
+					if (ultimaCategoria == null || !ultimaCategoria.getNome().equals(resultSet.getString(2))) {						
+						Integer id = resultSet.getInt("ID");
+						String nome = resultSet.getString("nome");
+						Categoria categoria = new Categoria(nome, id);
+						categorias.add(categoria);
+						ultimaCategoria = categoria;
+					}
+					
+					Integer idProduto = resultSet.getInt(3);
+					String nomeProduto = resultSet.getString(4);
+					String descricao = resultSet.getString(5);
+					
+					ultimaCategoria.addProduto(new Produto(idProduto, nomeProduto, descricao));
+					
+				}
+				
+			}
+			
+		}
+		return categorias;
 	}
 }

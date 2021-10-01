@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import br.dev.rodrigocury.models.Categoria;
 import br.dev.rodrigocury.models.Produto;
 
 public class ProdutoDAO {
@@ -72,8 +73,38 @@ public class ProdutoDAO {
 			Integer modifiedLines = stm.getUpdateCount();
 			
 			System.out.println(String.format("Linhas Modificadas: %d", modifiedLines));
-		}
-		
-				
+		}				
 	}
+	
+	@Deprecated
+	public ArrayList<Produto> buscar(Categoria ct) throws SQLException{
+		return buscar(ct.getId());
+	}
+	
+	@Deprecated // N + 1 Calls
+	public ArrayList<Produto> buscar (Integer id) throws SQLException{
+		ArrayList<Produto> produtos = new ArrayList<Produto>();
+
+		String sql = "SELECT ID, NOME, DESCRICAO FROM PRODUTO WHERE CATEGORIA_ID = ?";
+						
+		try (PreparedStatement statement = connection.prepareStatement(sql)){
+			statement.setInt(1, id);
+			statement.execute();
+			
+			try(ResultSet resultSet = statement.getResultSet()){
+				
+				while(resultSet.next()) {
+					Integer id1 = resultSet.getInt("ID");
+					String nome = resultSet.getString("nome");
+					String descricao = resultSet.getString("descricao");
+					produtos.add(new Produto(id1, nome, descricao));
+				}
+				
+			}
+			
+		}
+		return produtos;
+	}
+	
+	
 }

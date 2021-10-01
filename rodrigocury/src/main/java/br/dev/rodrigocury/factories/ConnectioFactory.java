@@ -1,4 +1,4 @@
-package br.dev.rodrigocury.main;
+package br.dev.rodrigocury.factories;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import br.dev.rodrigocury.factories.ConnectioFactory;
+
 public class TestaInsercaoComParametro {
 
 	public static void main(String[] args) throws SQLException {

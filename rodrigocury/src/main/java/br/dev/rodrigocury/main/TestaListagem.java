@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import br.dev.rodrigocury.factories.ConnectioFactory;
 import br.dev.rodrigocury.models.Produto;
 
 public class TestaListagem {

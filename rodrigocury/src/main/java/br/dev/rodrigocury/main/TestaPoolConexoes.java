@@ -3,6 +3,8 @@ package br.dev.rodrigocury.main;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import br.dev.rodrigocury.factories.ConnectioFactory;
+
 public class TestaPoolConexoes {
 
 	public static void main(String[] args) {

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import br.dev.rodrigocury.DAO.ProdutoDAO;
+import br.dev.rodrigocury.factories.ConnectioFactory;
 
 public class TestaProdutoDAO {
 

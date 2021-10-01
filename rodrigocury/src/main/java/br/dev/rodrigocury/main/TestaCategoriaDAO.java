@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import br.dev.rodrigocury.DAO.CategoriaDAO;
+import br.dev.rodrigocury.factories.ConnectioFactory;
 import br.dev.rodrigocury.models.Categoria;
 
 public class TestaCategoriaDAO {

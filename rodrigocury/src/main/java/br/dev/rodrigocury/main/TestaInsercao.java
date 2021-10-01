@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import br.dev.rodrigocury.factories.ConnectioFactory;
+
 public class TestaInsercao {
 
 	public static void main(String[] args) {

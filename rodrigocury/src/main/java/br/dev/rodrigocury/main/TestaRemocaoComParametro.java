@@ -3,6 +3,8 @@ package br.dev.rodrigocury.main;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+import br.dev.rodrigocury.factories.ConnectioFactory;
+
 public class TestaRemocaoComParametro {
 
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package br.dev.rodrigocury.main;
+package br.dev.rodrigocury.factories;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,8 +25,12 @@ public class ConnectioFactory {
 		dataSource = cpds;
 	}
 	
-	public static Connection create() throws SQLException {
-        return dataSource.getConnection();
+	public static Connection create(){
+		try {
+			return dataSource.getConnection();			
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public static DataSource getDataSource() {

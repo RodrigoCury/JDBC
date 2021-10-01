@@ -14,9 +14,12 @@ public class TestaCategoriaDAO {
 		try (Connection c = ConnectioFactory.create()){
 			
 			CategoriaDAO cd = new CategoriaDAO(c);
-			ArrayList<Categoria> ac = cd.listar();
+			ArrayList<Categoria> ac = cd.listarComProdutos();
 			
-			ac.forEach(System.out::println);
+			ac.forEach(ct -> {
+				System.out.println(ct);
+				ct.getProdutos().forEach(System.out::println);
+			});
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
